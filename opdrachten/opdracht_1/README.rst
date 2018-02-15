@@ -1,32 +1,63 @@
-..  Copyright 2014-present PlatformIO <contact@platformio.org>
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-       http://www.apache.org/licenses/LICENSE-2.0
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+# Opdracht 1 - Blink once to accept
 
-How to build PlatformIO based project
-=====================================
+Maak	een	‘Blink	led’	programma,	waar	twee	leds	omen-om aan	 en	 uit	 gaan.	 Het	 knipperen	 van	 de	 leds moet	traag	verlopen,	zodat	het	knippereffect	zichtbaar is	met	het	blote	oog.
 
-1. `Install PlatformIO Core <http://docs.platformio.org/page/core.html>`_
-2. Download `development platform with examples <https://github.com/platformio/platform-atmelavr/archive/develop.zip>`_
-3. Extract ZIP archive
-4. Run these commands:
+# Samenvatting
 
-.. code-block:: bash
+Voor de opdracht heb ik gebruik gemaakt van de [Native Blink PlatformIO] waarvan ik gebruik maak binnen in de editor visual studio code. Deze code laat de onboard led van de arduino nano blinken (eigenlijk hetzelfde principe als een normale led). Ik heb ook gebruik gemaakt van een [WordPress Blog] die precies uitlegd hoe het nou te werk gaat alleen maken ze hier gebruik van 1 led die op high en low gezet kan worden. 
 
-    # Change directory to example
-    > cd platform-atmelavr/examples/native-blink
+# Afbeelding Setup
 
-    # Build project
-    > platformio run
+Hieronder zie je afbeelding van de setup die ik gemaakt heb.
+[![Opdracht 1 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/opdracht1_setup.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/opdracht1_setup.JPG?raw=true)
 
-    # Upload firmware
-    > platformio run --target upload
 
-    # Clean build files
-    > platformio run --target clean
+# Afbeelding Fritzing
+
+Hieronder zie je de afbeelding van de fritzing tekening die ik gemaakt heb.
+[![Opdracht 1 - Fritzing](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/opdracht1_fritzing_bb.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/opdracht1_fritzing_bb.png?raw=true)
+
+# Video URL
+
+De [video] is te vinden op de onderstaande url:
+[![Opdracht 1](https://img.youtube.com/vi/ttEtQj9GnBg/0.jpg)](https://www.youtube.com/watch?v=ttEtQj9GnBg)
+
+# Code gebruikt voor de opdracht
+```c
+/**
+ * IMTHE1 - Zowie van Geest - 1097398 - INF3C
+ * Opdracht 1 - Blink once to accept
+ */
+
+#include <avr/io.h>
+#include <util/delay.h>
+
+// Define voor blink delay tijd in ms (1200)
+#define DELAY_BLINK_MS 1200
+
+int main(void)
+{
+    // Pin D5 & D6 zijn de output pins voor de leds
+    DDRD = 0b01100000;
+
+    // While loop
+    while (1)
+    {
+        // Zet led aan op D5 en D6 uit indien die aan was
+        PORTD ^= 1 << 5;
+
+        // Wacht 1.2 seconden
+        _delay_ms(DELAY_BLINK_MS);
+
+        // Zet led uit op D5 en zet led aan op D6
+        PORTD ^= 1 << 6;
+    }
+
+    return 0;
+}
+
+```
+
+   [WordPress Blog]: <https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/>
+   [Native Blink PlatformIO]: <https://github.com/platformio/platform-atmelavr/tree/develop/examples/native-blink>
+   [video]: <https://youtu.be/ttEtQj9GnBg>
