@@ -20,7 +20,7 @@ Hieronder zie je de afbeelding van de fritzing tekening die ik gemaakt heb.
 # Video URL
 
 De [video] is te vinden op de onderstaande url:
-[![Opdracht 1](https://img.youtube.com/vi/ttEtQj9GnBg/0.jpg)](https://www.youtube.com/watch?v=ttEtQj9GnBg)
+[![Opdracht 1](https://img.youtube.com/vi/ttEtQj9GnBg/maxresdefault.jpg)](https://www.youtube.com/watch?v=ttEtQj9GnBg)
 
 # Code gebruikt voor de opdracht
 ```c
@@ -58,6 +58,6 @@ int main(void)
 
 ```
 
-   [WordPress Blog]: <https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/>
-   [Native Blink PlatformIO]: <https://github.com/platformio/platform-atmelavr/tree/develop/examples/native-blink>
-   [video]: <https://youtu.be/ttEtQj9GnBg>
+[WordPress Blog]: <https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/>
+[Native Blink PlatformIO]: <https://github.com/platformio/platform-atmelavr/tree/develop/examples/native-blink>
+[video]: <https://youtu.be/ttEtQj9GnBg>
