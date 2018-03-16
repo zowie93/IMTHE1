@@ -1,122 +1,157 @@
-# Opdracht 2 - Count	me	in
+# Opdracht 3.1 - ADC baby!
 
-Maak	een	programma	dat	op	het	7-segment	LED	
-display	 herhalend	telt	 van	 0	t/m	 9.	 Gebruik het	
-rechter	display	van	de	 twee	en	verwerk functies	
-en	bit-shifting	in	je	oplossing
+Maak een digitale dobbelsteen met 9 leds (zie plaatje). Als je op een knop drukt geven de leds een random waarde tussen 1 en 6 weer op de leds zoals je dat kent op een echte dobbelsteen. Hou bij het programma rekening met dender-gedrag.
 
 # Samenvatting
 
-Voor de opdracht heb ik gebruik gemaakt van de [Data Sheet] voor het 7-segment display. Hiermee wist ik welke pinnen gebruikt werden voor ieder segment. Met de ground heb ik gecontroleerd of deze ook echt de juiste waren en heb ik deze genoteerd in een schema welke segmenten ik nodig had voor een bepaald cijfer. Verder heb ik een [Youtube] filmpje gevonden die het display uitlegd.  Voor de rest heb ik een functies gemaakt die d.m.v. bitshifting de C en D bank activeerd. 
+Voor de opdracht heb ik gebruik gemaakt van de ledjes die in de box inbegrepen zaten. Voor elke combinatie van een cijfer heb ik een functie gemaakt die de ledjes aanspreekt. Hierdoor heb ik 6 functies die elk een cijfer vertegenwoordigen. Ik maak gebruik van random die een nummer bij elke klik tussen de 1 en 6 berekend. Vervolgens gaat deze door de switch die elk 1 van de bovenste functies aanspreekt per random getal. Aan de volgende [Youtube][Youtube] video heb ik veel gehad deze ging gepaard met een [arduino][arduino] tutorial. Hierdoor ben ik op een switch gekomen.
 
 # Afbeelding Setup
 
 Hieronder zie je afbeelding van de setup die ik gemaakt heb.
-[![Opdracht 2 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_2_1/assets/img/opdracht2_setup.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_2_1/assets/img/opdracht2_setup.JPG?raw=true)
+[![Opdracht 3.1 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_1/assets/img/opdracht3_1_setup.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_1/assets/img/opdracht3_1_setup.JPG?raw=true)
 
 # Afbeelding Fritzing
 
 Hieronder zie je de afbeelding van de fritzing tekening die ik gemaakt heb.
-[![Opdracht 2 - Fritzing](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_2_1/assets/img/opdracht2_1_fritzing_bb.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_2_1/assets/img/opdracht2_1_fritzing_bb.png?raw=true)
+[![Opdracht 3.1 - Fritzing](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_1/assets/img/opdracht3_1_fritzing_bb.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_1/assets/img/opdracht3_1_fritzing_bb.png?raw=true)
 
 # Video URL
 
 De [video] is te vinden op de onderstaande url:
-[![Opdracht 1](https://img.youtube.com/vi/xxDyX3eZft4/maxresdefault.jpg)](https://youtu.be/xxDyX3eZft4)
+[![Opdracht 3_1](https://img.youtube.com/vi/H6loFRx4bV4/maxresdefault.jpg)](https://youtu.be/H6loFRx4bV4)
 
 # Code gebruikt voor de opdracht
 
 ```c
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
- * Opdracht 2 - Count me in
+ * Opdracht 3 - ADC Baby!
  */
 
 #include <avr/io.h>
 #include <util/delay.h>
 
-#define DELAY_TIME_MS 500
-/*
-* ---- DIGIT RIGHT ----
-*        --------- 
-*       | A = PD2 |
-*        ---------
-* ------           ----- 
-*| F   |          | B   |
-*| =   |          | =   |
-*| PC1 |          | PD3 |
-* -----            -----
-*        --------- 
-*       | G = PC2 |
-*        ---------
-* ------           ----- 
-*| E   |          | C   |
-*| =   |          | =   |
-*| PC0 |          | PD4 |
-* -----            -----
-*        --------- 
-*       | D = PC5 |
-*        ---------
-*/
+#define DELAY_TIME_MS 300
 
-// Functie voor de C poort met integer in de callback
-void useCport (int digit) {
-    // Poort C gebruikt input van digit die bitshift die 4 keer naar links en 8 keer naar rechts zodat die leeg begint en dan met de bitwise operator NOT draai ik ze om
-    PORTC =~ (((digit) << 4) >> 8);
+// Functie voor middelste led met behulp van bitshiften op de D bank
+void one() {
+    PORTD ^= 1 << 6;
 }
 
-// Functie voor de D poort met integer in de callback
-void useDport (int digit) {
-    // Poort D gebruikt input van digit die bitshift die 4 keer naar links en 8 keer naar rechts zodat die leeg begint en dan met de bitwise operator NOT draai ik ze om
-    PORTD =~ (((digit) << 8) >> 6);
+// Functie voor led Linksboven en Rechtsonder met behulp van bitshiften op de D en B bank
+void two() {
+    PORTD ^= 1 << 3;
+    PORTB ^= 1 << 1;
+}
+
+// Functie voor Linksboven, Rechtersonder en Middelste led met behulp van bitshiften op de D en B bank
+void three() {
+    PORTD ^= 1 << 6;
+    PORTD ^= 1 << 3;
+    PORTB ^= 1 << 1;
+}
+
+// Functie voor Linksboven, Rechtsboven, Linksonder en Rechtsonder led met behulp van bitshiften op de D en B bank
+void four() {
+    PORTD ^= 1 << 3;
+    PORTD ^= 1 << 5;
+    PORTD ^= 1 << 7;
+    PORTB ^= 1 << 1;
+}
+
+// Functie voor Linksboven, Rechtsboven, Linksonder, Rechtsonder en Middelste led met behulp van bitshiften op de D en B bank
+void five() {
+    PORTD ^= 1 << 3;
+    PORTD ^= 1 << 5;
+    PORTD ^= 1 << 6;
+    PORTD ^= 1 << 7;
+    PORTB ^= 1 << 1;
+}
+
+// Functie voor alle leds behalve de middelste met behulp van bitshiften op de D en B bank
+void six() {
+    PORTD ^= 1 << 3;
+    PORTD ^= 1 << 4;
+    PORTD ^= 1 << 5;
+    PORTD ^= 1 << 7;
+    PORTB ^= 1 << 0;
+    PORTB ^= 1 << 1;
+}
+
+// Functie voor het opschonen van de bits (op 0 zetten)
+void clear() {
+    PORTB = 0b00000000;
+    PORTD = 0b00000000;
+
+    // De knop zit op PD2 dus die moet blijven
+    PORTD = (1 << PD2);
+}
+
+// Functie voor random roll tijdens het dobbelen
+void randomRoll() {
+    // random integer tussen de 1 en de 6
+    int number = ((rand() % 6) + 1);
+            // switch die de random integer invult en hierbij de case afspeelt
+            switch(number) {
+                // case 1 spreekt nummer 1 aan
+                case 1:
+                    one();
+                    break;
+                // case 2 spreekt nummer 2 aan
+                case 2:
+                    two();
+                    break;
+                // case 3 spreekt nummer 3 aan
+                case 3:
+                    three();
+                    break;
+                // case 4 spreekt nummer 4 aan
+                case 4:
+                    four();
+                    break;
+                // case 5 spreekt nummer 5 aan
+                case 5:
+                    five();
+                    break;
+                // case 6 spreekt nummer 6 aan
+                case 6:
+                    six();
+                    break;
+            }
 }
 
 int main(void)
 {
-    // Zet alle pinnen van de C bank aan
-    DDRC = 0b11111111;
+    // Gebruikte pinnen op de B bank
+    DDRB = 0b00000111;
 
-    // Zet alle pinnen van de D bank aan
-    DDRD = 0b11111111;
-
-    // teller van i op 0
-    int i = 0;
-
-    // Alle digits in een array
-    int digits[10] = {
-        0b00111111, // digit 0
-        0b00000110, // digit 1
-        0b01011011, // digit 2
-        0b01001111, // digit 3
-        0b01100110, // digit 4
-        0b01101101, // digit 5
-        0b01111101, // digit 6
-        0b00000111, // digit 7
-        0b01111111, // digit 8
-        0b01101111  // digit 9
-
-    };
+    // Aanzetten PD2 pin voor de button
+    PORTD = (1 << PD2);
+    // Gebruikte pinnen op de D bank
+    DDRD = 0b11111100;
 
     // While loop
     while (1)
     {
-        // Functie om de C poort te gebruiken die teller modulo array van alle digits doorloopt
-        useCport(digits[i % 10]);
-
-        // Functie om de D poort te gebruiken die teller modulo array van alle digits doorloopt
-        useDport(digits[i % 10]);
-        
-        // Delay van het tellen defineerd bij DEFINE
-        _delay_ms(DELAY_TIME_MS);
-
-        // Teller van i ++
-        i++;
+        // Als de bit schoon is van PD2 op de D bank voert die dit uit
+        if(bit_is_clear(PIND, PD2)) {
+            // Loop voor het dendergedrag van het dobbelen
+            for(int i = 0; i < 6; i++){
+                // Opschonen bits
+                clear();
+                // Randomroll uitvoeren
+                randomRoll();
+                // Delay na elke roll
+                _delay_ms(DELAY_TIME_MS);
+            }
+        }
     }
 
     return 0;
 }
 ```
 
-[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;p=11
-[video]: https://youtu.be/xxDyX3eZft4
-[Youtube]: https://www.youtube.com/watch?v=yWwvUUZ4-Xs
+[video]: https://youtu.be/H6loFRx4bV4
+[Youtube]: https://www.youtube.com/watch?v=-CuFiuR8h20
+[arduino]: https://jaydlawrence.co.uk/a-beginner-arduino-project-digital-dice-roll/
