@@ -136,6 +136,7 @@ int main(void)
 #Technische Data Potentiometer
 Hieronder zie je de afbeelding die ik gebruikt heb voor het aansluiten van de potentiemeter
 Je hebt namelijk een plus, data en min pin waarmee je de potentiemeter aansluit (zie [datasheet-potentiometer]).
+
 [![Potentiometer 2](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot2.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot2.png?raw=true)
 [![Potentiometer 1](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot1.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot1.png?raw=true)
 
