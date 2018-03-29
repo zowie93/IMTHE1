@@ -11,7 +11,7 @@ In de code laat ik elke led van 0 tot en met 255 tellen met stappen van 5. Ik be
 # Afbeelding Setup
 
 Hieronder zie je afbeelding van de setup die ik gemaakt heb.
-[![Opdracht 4.1 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_1/assets/img/opdracht4_1_setup.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_1/assets/img/opdracht4_1_setup.JPG?raw=true)
+[![Opdracht 4.1 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_1/assets/img/opdracht4_1_setup.jpg?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_1/assets/img/opdracht4_1_setup.jpg?raw=true)
 
 # Afbeelding Fritzing
 
