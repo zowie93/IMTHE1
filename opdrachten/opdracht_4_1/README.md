@@ -1,4 +1,4 @@
-# Opdracht 4.1 - ADC baby!
+# Opdracht 4.1 - Led there be light
 
 Creëer een ‘Color changing light’ met het RGB-led op basis van PWM. De PWM moet in een Interrupt Service Routine (ISR) worden afgehandeld.
 
