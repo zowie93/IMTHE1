@@ -9,7 +9,7 @@ x
 # Afbeelding Setup
 
 Hieronder zie je afbeelding van de setup die ik gemaakt heb.
-[![Opdracht 4.3 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_3/assets/img/opdracht4_3_setup.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_3/assets/img/opdracht4_3_setup.JPG?raw=true)
+[![Opdracht 4.3 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_3/assets/img/opdracht4_3_setup.jpg?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_3/assets/img/opdracht4_3_setup.jpg?raw=true)
 
 # Afbeelding Fritzing
 
