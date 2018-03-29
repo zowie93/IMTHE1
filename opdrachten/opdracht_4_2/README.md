@@ -4,7 +4,9 @@ Maak een programma waarin je via Serial communicatie een led aan of uit kan zett
 
 # Samenvatting
 
-x
+In de les hebben we het gehad over USART.h/c die gebruikt wordt voor seriële communicatie. Hiervoor heb ik code meegetypt samen met de docent en verder uitgewerkt in deze opdracht. Als ik binnen de seriele monitor een 'u' of een 'a' stuur gaat de led aan of uit. De 'u' gebruik ik voor uit. De 'a' gebruik ik voor aan. Als dit gelukt is wordt er via de seriele monitor aangegeven of dit gelukt is of niet die gebeurd met een simpele if else constructie. Als het niet gelukt is of er is een verkeerde character gestuurd geeft de monitor ook een melding.
+
+Voor de led heb ik dezelfde [Datasheet] gebruikt die ik eerder voor opdracht 1 heb gebruikt. In de [Datasheet] zie je dat de Anode (+) het langste pootje is en de Cathode(-) is het kortste pootje. Hierdoor weet je precies op welke pin je stroom moet zetten en op welke de ground. De layout van het ledje kan je hieronder vinden.
 
 # Afbeelding Setup
 
@@ -127,3 +129,4 @@ int main (void)
 ```
 
 [video]: https://youtu.be/XsHXUzApZ7s
+[Datasheet]: <http://www1.futureelectronics.com/doc/EVERLIGHT%C2%A0/334-15__T1C1-4WYA.pdf>	"Technical datasheet 5mm led"
