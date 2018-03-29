@@ -150,7 +150,7 @@ int main(void)
         i++;
 
         // Reset naar 0 als die boven 99 gaat
-        if (1 > 99)
+        if (i > 99)
         {
             i = 0;
         }
@@ -164,6 +164,6 @@ int main(void)
 Hieronder zie je welke technische tekening ik gebruikt heb voor het opzoeken van de juiste pinnen per segment.
 [![Technische tekening display](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_2_2/assets/img/matrix-technisch.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_2_2/assets/img/matrix-technisch.png?raw=true)
 
-[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;amp;amp;amp;p=11
+[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;amp;amp;amp;amp;p=11
 [video]: https://youtu.be/suMXQRbO9Xg
 [Youtube]: https://www.youtube.com/watch?v=yWwvUUZ4-Xs

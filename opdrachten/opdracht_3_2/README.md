@@ -133,6 +133,16 @@ int main(void)
 }
 ```
 
+#Technische Data Potentiometer
+Hieronder zie je de afbeelding die ik gebruikt heb voor het aansluiten van de potentiemeter
+Je hebt namelijk een plus, data en min pin waarmee je de potentiemeter aansluit (zie [datasheet-potentiometer]).
+[![Potentiometer 2](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot2.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot2.png?raw=true)
+[![Potentiometer 1](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot1.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_3_2/assets/img/pot1.png?raw=true)
+
+
+
+
 [video]: https://youtu.be/MZWNYMROIA0
 [stackoverflow]: https://stackoverflow.com/a/5732390/3227342
 [datasheet]: https://www.alliedelec.com/m/d/69ca74a806a82d744141c552ce43700a.pdf
+[datasheet-potentiometer]:https://components101.com/sites/default/files/component_datasheet/potentiometer%20datasheet.pdf

@@ -71,17 +71,17 @@ ISR(TIMER0_OVF_vect)
     OCR2A = ~RGBPattern[2];    // B-Led waarde.
 }
 
-void initTimerOverflow()
+void initTimerOverflowCapture()
 {
-    // Mask van de timer
+    // Starten van timer met 64ms delay 
     TIMSK0 |= (1 << TOIE0);
 
-    // Instellingen timer
+    // Starten van de timer en prescaler op 64ms
     TCCR0B |= (1 << CS02) | (1 << CS00);
     sei();
 }
 
-void intPWMTimerLED()
+void intPWMTimerForTheLED()
 {
     // Timer 1 R-Led en G-Led
     TCCR1A |= (1 << WGM10) | (1 << WGM12); // Fast PWM.
@@ -105,10 +105,10 @@ int main(void)
     DDRB = (1 << PB1) | (1 << PB2) | (1 << PB3);
 
     // Functie van de overflow timer
-    initTimerOverflow();
+    initTimerOverflowCapture();
 
     // Functie van de led timer
-    intPWMTimerLED();
+    intPWMTimerForTheLED();
 
     while (1) {
         
