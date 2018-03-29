@@ -27,6 +27,7 @@ De [video][video] is te vinden op de onderstaande url:
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 3.2 - ADC Baby!
+ * Datum: 16-03-2018
  */
 
 

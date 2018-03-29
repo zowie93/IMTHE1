@@ -1,6 +1,7 @@
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 1 - Blink once to accept
+ * Datum: 15-02-2018
  */
 
 #include <avr/io.h>

@@ -27,6 +27,7 @@ De [video] is te vinden op de onderstaande url:
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 1 - Blink once to accept
+ * Datum: 15-02-2018
  */
 
 #include <avr/io.h>
@@ -55,7 +56,6 @@ int main(void)
 
     return 0;
 }
-
 ```
 
 [WordPress Blog]: <https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/>

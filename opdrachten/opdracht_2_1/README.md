@@ -30,6 +30,7 @@ De [video] is te vinden op de onderstaande url:
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 2 - Count me in
+ * Datum: 21-02-2018
  */
 
 #include <avr/io.h>
@@ -117,6 +118,6 @@ int main(void)
 }
 ```
 
-[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;p=11
+[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;amp;p=11
 [video]: https://youtu.be/xxDyX3eZft4
 [Youtube]: https://www.youtube.com/watch?v=yWwvUUZ4-Xs

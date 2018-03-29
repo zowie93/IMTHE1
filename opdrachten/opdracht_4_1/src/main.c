@@ -1,6 +1,7 @@
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 4.1 - Led there be light
+ * Datum: 16-03-2018
  */
 
 

@@ -27,6 +27,7 @@ De [video][video] is te vinden op de onderstaande url:
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 4.2 - Led there be light
+ * Datum: 22-03-2018
  */
 
 #define BAUD 9600

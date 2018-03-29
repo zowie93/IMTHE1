@@ -1,6 +1,7 @@
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 4.3 - Led there be light
+ * Datum: 23-03-2018
  */
 
 // Baud rate.

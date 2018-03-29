@@ -19,7 +19,7 @@ Hieronder zie je de afbeelding van de fritzing tekening die ik gemaakt heb.
 # Video URL
 
 De [video] is te vinden op de onderstaande url:
-[![Opdracht 2.2](https://img.youtube.com/vi/https://youtu.be/NQaIskqfxnc/maxresdefault.jpg)](https://youtu.be/NQaIskqfxnc)
+[![Opdracht 2.2](https://img.youtube.com/vi/https://youtu.be/suMXQRbO9Xg/maxresdefault.jpg)](https://youtu.be/suMXQRbO9Xg)
 
 # Code gebruikt voor de opdracht
 
@@ -27,6 +27,7 @@ De [video] is te vinden op de onderstaande url:
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 2.2 - Count me in
+ * Datum: 26-02-2018
  */
 
 #include <avr/io.h>
@@ -157,6 +158,6 @@ int main(void)
 }
 ```
 
-[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;amp;amp;p=11
-[video]: https://youtu.be/NQaIskqfxnc
+[Data Sheet]: http://www.datasheetarchive.com/A/d5621A/B*-datasheet.html?q=A/d5621A/B*&amp;amp;amp;amp;amp;p=11
+[video]: https://youtu.be/suMXQRbO9Xg
 [Youtube]: https://www.youtube.com/watch?v=yWwvUUZ4-Xs
