@@ -133,7 +133,8 @@ int main(void)
 }
 ```
 
-#Technische Data Potentiometer
+
+# Technische Data Potentiometer
 Hieronder zie je de afbeelding die ik gebruikt heb voor het aansluiten van de potentiemeter
 Je hebt namelijk een plus, data en min pin waarmee je de potentiemeter aansluit (zie [datasheet-potentiometer]).
 
