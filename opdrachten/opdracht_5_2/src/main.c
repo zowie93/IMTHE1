@@ -1,6 +1,7 @@
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
  * Opdracht 5.2 - ET Phone HOME
+ * Datum: 28-03-2018
  */
 
 #include "hd44780.h"

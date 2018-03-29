@@ -4,7 +4,7 @@ Maak	een	‘Blink	led’	programma,	waar	twee	leds	omen-om aan	 en	 uit	 gaan.	 
 
 # Samenvatting
 
-Voor de opdracht heb ik gebruik gemaakt van de [Native Blink PlatformIO] waarvan ik gebruik maak binnen in de editor visual studio code. Deze code laat de onboard led van de arduino nano blinken (eigenlijk hetzelfde principe als een normale led). Ik heb ook gebruik gemaakt van een [WordPress Blog] die precies uitlegd hoe het nou te werk gaat alleen maken ze hier gebruik van 1 led die op high en low gezet kan worden. 
+Voor de opdracht heb ik gebruik gemaakt van de [Native Blink PlatformIO] waarvan ik gebruik maak binnen in de editor visual studio code. Deze code laat de onboard led van de arduino nano blinken (eigenlijk hetzelfde principe als een normale led). Ik heb ook gebruik gemaakt van een [WordPress Blog] die precies uitlegd hoe het nou te werk gaat alleen maken ze hier gebruik van 1 led die op high en low gezet kan worden.  In de [Datasheet] zie je dat de Anode (+) het langste pootje is en de Cathode(-) is het kortste pootje. Hierdoor weet je precies op welke pin je stroom moet zetten en op welke de ground. De layout van het ledje kan je hieronder vinden.
 
 # Afbeelding Setup
 
@@ -58,6 +58,12 @@ int main(void)
 }
 ```
 
+# Technical Data Sheet
+Hieronder zie je de technische data van de led in een afbeelding die ik gebruikt heb om hem aan te sluiten.
+[![Techinical Led Image](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/led-technisch.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/led-technisch.png?raw=true)
+
+
 [WordPress Blog]: <https://balau82.wordpress.com/2011/03/29/programming-arduino-uno-in-pure-c/>
 [Native Blink PlatformIO]: <https://github.com/platformio/platform-atmelavr/tree/develop/examples/native-blink>
+[Datasheet]: <http://www1.futureelectronics.com/doc/EVERLIGHT%C2%A0/334-15__T1C1-4WYA.pdf>	"Technical datasheet 5mm led"
 [video]: <https://youtu.be/ttEtQj9GnBg>
