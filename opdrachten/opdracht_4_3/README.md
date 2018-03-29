@@ -1,10 +1,10 @@
 # Opdracht 4.3 - Led there be Light!
 
-Maak een programma waarin je via Serial communicatie een led aan of uit kan zetten. Dit mag door bijvoorbeeld het karakter ‘a’ of ‘u’ te sturen. Het programma geeft feedback over de seriële poort of het gelukt is ja of nee. Gebruik niet de gegeven usart.c en .h in je uitwerking, maar maak een oplossing in 1 source bestand.
+Verander deelopdracht 2 zodat binnenkomende data afgehandeld wordt in een interrupt (USART_RX_vect) zodat je programma (zoals in het voorbeeld van hoofdstuk 5) niet ‘eeuwig’ op input wacht. Toon aan dat het werkt door via seriële communicatie een ‘r’, ‘g’ of ‘b’ door te geven aan de AVR en dat dan de corresponderende kleur gaat pulseren (PWM op 1 kleur).
 
 # Samenvatting
 
-x
+Bij deze opdracht heb ik alles precies hetzelfde aangesloten als opdracht 4.1 waar we een color changing led gemaakt hebben met behulp van ISR. Dat is bij deze opdracht niet anders alleen moeten we hier gebruik maken van interrupt. Dit werkte eerste instantie niet in het standaard USART bestand hierdoor moest de functie aangepast worden zodat je enkele characters kon sturen via deze manier. Eerst kwam ik er niet uit hoe ik deze characters kon sturen maar na veel Googlen kwam ik op een [forum] waarbij de ze in de initUSART functie op de variable UCSR0B de RXCIE0 aanzetten om te zorgen dat dit wel kan. Hiervoor moest je ook een tweede methode voor ISR aanmaken om te kijken of er geschreven wordt via de seriele verbinding. 
 
 # Afbeelding Setup
 
@@ -38,11 +38,11 @@ De [video][video] is te vinden op de onderstaande url:
 #include <util/setbaud.h>
 #include <avr/interrupt.h>
 
-// int voor teller.
-int teller = 0;
-
 // character begint op R rood.
 char kleurChar = 'r';
+
+// int voor teller.
+int teller = 0;
 
 // Gekopieerd uit bestand USART snap niet waarom dit moet als we het nu juist over code kwaliteit hebben en object georienteerd programmeren? 
 void initUSART(void)
@@ -56,9 +56,21 @@ void initUSART(void)
         UCSR0A &= ~(1 << U2X0);
     #endif
 
-    // RXCIE0 zorgt ervoor dat de interrupt triggert op character.
-    UCSR0B = (1 << RXCIE0) | (1 << TXEN0) | (1 << RXEN0);
+    // RXCIE0 aanzetten voor character ontvangst
+    // https://www.avrfreaks.net/forum/usart-interrupts-atmega328p-solved
+    UCSR0B = (1 << TXEN0) | (1 << RXCIE0) | (1 << RXEN0);
     UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+}
+
+// Gekopieerd uit bestand USART snap niet waarom dit moet als we het nu juist over code kwaliteit hebben en object georienteerd programmeren? 
+void printString(const char myString[])
+{
+    uint8_t i = 0;
+    while (myString[i])
+    {
+        transmitByte(myString[i]);
+        i++;
+    }
 }
 
 // Gekopieerd uit bestand USART snap niet waarom dit moet als we het nu juist over code kwaliteit hebben en object georienteerd programmeren? 
@@ -75,27 +87,16 @@ void transmitByte(uint8_t data)
     UDR0 = data;
 }
 
-// Gekopieerd uit bestand USART snap niet waarom dit moet als we het nu juist over code kwaliteit hebben en object georienteerd programmeren? 
-void printString(const char myString[])
+void initTimerOverflowCapture()
 {
-    uint8_t i = 0;
-    while (myString[i])
-    {
-        transmitByte(myString[i]);
-        i++;
-    }
-}
-
-void initTimerOverflow()
-{
-    // Mask van de timer
+    // Starten van timer met 64ms delay 
     TIMSK0 |= (1 << TOIE0);
 
-    // Instellingen timer
+    // Starten van de timer en prescaler op 64ms
     TCCR0B |= (1 << CS02) | (1 << CS00);
 }
 
-void initPWMTimerLED()
+void initPWMTimerForTheLED()
 {
     // Timer 1 R-Led en G-Led
     TCCR1A |= (1 << WGM10) | (1 << WGM12); // Fast PWM.
@@ -181,10 +182,10 @@ int main(void)
     DDRB = (1 << PB1) | (1 << PB2) | (1 << PB3);
     // USART initialiseren
     initUSART();
-    // Functie van de overflow timer
-    initTimerOverflow();
+    // Functie van de overflow capture timer
+    initTimerOverflowCapture();
     // Functie van de led timer
-    initPWMTimerLED();
+    initPWMTimerForTheLED();
     // Interrupts aan
     sei();
 
@@ -196,3 +197,5 @@ int main(void)
 ```
 
 [video]: https://youtu.be/MGRdxS2QpH4
+
+[forum]: https://www.avrfreaks.net/forum/usart-interrupts-atmega328p-solved
