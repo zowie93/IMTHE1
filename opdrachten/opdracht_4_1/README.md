@@ -5,6 +5,8 @@ Creëer een ‘Color changing light’ met het RGB-led op basis van PWM. De PWM 
 # Samenvatting
 
 Voor het aansluiten van de led heb ik eerste uitgezocht wat voor soort RGB- Led het is. Ik heb hem eerst aangesloten met alleen de 5 volt op de tweede pin en een ground op de eerste pin om te kijken of het een Common Cathode is of een Common Anode. Wij hebben de led gekregen die Common Anode is. In pricipe maakt dat voor de layout van de pinnen niet uit. 
+Vervolgens heb ik de juiste [datasheet] erbij gezocht om te kijken welke pinnen bij welke kleur leds horen. 
+
 In de les zelf hadden we een voorbeeld gemaakt om met de PWM OC2A de led te laten dimmen. Dit is bij een RGB led niet anders alleen heeft het meerdere pinnen. Hiervoor heb ik de PWM OC1A en de PWM OC1B. In het boek staat code die je kan gebruiken voor de RGB led.
 In de code laat ik elke led van 0 tot en met 255 tellen met stappen van 5. Ik ben begonnen met de Rode led die begint op 0 en gaat naar 255 en vervolgens weer op 0. Dit doet die hetzelfde voor Groen en Blauw. Alle code die dit mogelijk maakt staat in de ISR wat volgens de opdracht vereist is. 
 
@@ -116,4 +118,10 @@ int main(void)
 }
 ```
 
+# Technische data rgb-led
+
+Hieronder zie je de afbeelding van de technische data van de rgb-led
+[![technische data rgb-led](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_1/assets/img/rgb-datasheet.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_4_1/assets/img/rgb-datasheet.png?raw=true)
+
 [video]: https://youtu.be/l-dhi2N9c1I
+[datasheet]: https://www.sparkfun.com/datasheets/Components/YSL-R596CR3G4B5C-C10.pdf

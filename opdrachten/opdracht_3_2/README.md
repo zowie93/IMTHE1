@@ -4,7 +4,11 @@ Maak een programma dat de waarde van een potentiometer vertaalt in een geluidssi
 
 # Samenvatting
 
-Voor deze opdracht heb ik een deel van de code gebruikt uit de les met de potential meter en het ledje. In de les hadden we de potential meter zo ingesteld dat het ledje feller ging branden als je aan de meter draaide dat is met de speaker hetzelfde geval. Alleen moeten we binnen de range van 100 Hz en 10.000 Hz blijven. Je weet dat 100Hz gelijk is aan 10ms en 10.000us. Als je dat omrekend is 10.000hz gelijk aan 0.1ms en 100us. In de code maak ik gebruik van microseconden omdat ik dit makkelijker vond met berekenen. Hiervoor gebruik ik een functie die 1 t/m 1024 mapt met de waarde 100 en 10.000hz. Deze functie heb ik gevonden op [stackoverflow][stackoverflow] en heb ik iets aangepast. Daarna geef ik in de potential meter aan hoeveel microseconden het weer duurt voordat hij weer stroom krijgt zodat je de juiste toon krijgt. In de code staat dit verder uitgelegd. 
+Voor deze opdracht heb ik een deel van de code gebruikt uit de les met de potential meter en het ledje. In de les hadden we de potential meter zo ingesteld dat het ledje feller ging branden als je aan de meter draaide dat is met de speaker hetzelfde geval. Alleen moeten we binnen de range van 100 Hz en 10.000 Hz blijven. Je weet dat 100Hz gelijk is aan 10ms en 10.000us. Als je dat omrekend is 10.000hz gelijk aan 0.1ms en 100us. In de code maak ik gebruik van microseconden omdat ik dit makkelijker vond met berekenen. Hiervoor gebruik ik een functie die 1 t/m 1024 mapt met de waarde 100 en 10.000hz. Deze functie heb ik gevonden op [stackoverflow][stackoverflow] en heb ik iets aangepast. Daarna geef ik in de potential meter aan hoeveel microseconden het weer duurt voordat hij weer stroom krijgt zodat je de juiste toon krijgt. De speaker heeft ook een [datasheet] hierin zie je waar de pinnen voor dienen en tussen wat voor frequentie je de speaker kan laten spelen. Hierin staat ook dat de speaker een range heeft van 500hz - 20.000hz dus de daadwerkelijke 100hz kunnen we hierdoor nooit halen maar staat wel zo geprogrammeerd. 
+
+
+
+ In de code staat dit verder uitgelegd. 
 
 # Afbeelding Setup
 
@@ -131,3 +135,4 @@ int main(void)
 
 [video]: https://youtu.be/MZWNYMROIA0
 [stackoverflow]: https://stackoverflow.com/a/5732390/3227342
+[datasheet]: https://www.alliedelec.com/m/d/69ca74a806a82d744141c552ce43700a.pdf

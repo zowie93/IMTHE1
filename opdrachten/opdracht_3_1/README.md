@@ -4,7 +4,7 @@ Maak een digitale dobbelsteen met 9 leds (zie plaatje). Als je op een knop drukt
 
 # Samenvatting
 
-Voor de opdracht heb ik gebruik gemaakt van de ledjes die in de box inbegrepen zaten. Voor elke combinatie van een cijfer heb ik een functie gemaakt die de ledjes aanspreekt. Hierdoor heb ik 6 functies die elk een cijfer vertegenwoordigen. Ik maak gebruik van random die een nummer bij elke klik tussen de 1 en 6 berekend. Vervolgens gaat deze door de switch die elk 1 van de bovenste functies aanspreekt per random getal. Aan de volgende [Youtube][Youtube] video heb ik veel gehad deze ging gepaard met een [arduino][arduino] tutorial. Hierdoor ben ik op een switch gekomen.
+Voor de opdracht heb ik gebruik gemaakt van de ledjes die in de box inbegrepen zaten. Voor elke combinatie van een cijfer heb ik een functie gemaakt die de ledjes aanspreekt. Hierdoor heb ik 6 functies die elk een cijfer vertegenwoordigen. Ik maak gebruik van random die een nummer bij elke klik tussen de 1 en 6 berekend. Vervolgens gaat deze door de switch die elk 1 van de bovenste functies aanspreekt per random getal. Aan de volgende [Youtube][Youtube] video heb ik veel gehad deze ging gepaard met een [arduino][arduino] tutorial. Hierdoor ben ik op een switch gekomen. In de [Datasheet] zie je dat de Anode (+) het langste pootje is en de Cathode(-) is het kortste pootje. Hierdoor weet je precies op welke pin je stroom moet zetten en op welke de ground. De layout van het ledje kan je hieronder vinden.
 
 # Afbeelding Setup
 
@@ -153,6 +153,9 @@ int main(void)
 }
 ```
 
+# Technical Data Sheet
+Hieronder zie je de technische data van de led in een afbeelding die ik gebruikt heb om hem aan te sluiten.
+[![Techinical Led Image](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/led-technisch.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_1/assets/img/led-technisch.png?raw=true)
 
 [video]: https://youtu.be/H6loFRx4bV4
 [Youtube]: https://www.youtube.com/watch?v=-CuFiuR8h20
