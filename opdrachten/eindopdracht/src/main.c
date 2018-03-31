@@ -19,6 +19,9 @@
 #define SH_CP_PORT PORTC
 #define SH_CP_PIN 2
 
+#define DELAY_LED 160
+#define DELAY_LED_K 110
+
 #define DS_low() DS_PORT &= ~_BV(DS_PIN)
 #define DS_high() DS_PORT |= _BV(DS_PIN)
 #define ST_CP_low() ST_CP_PORT &= ~_BV(ST_CP_PIN)
@@ -27,6 +30,7 @@
 #define SH_CP_high() SH_CP_PORT |= _BV(SH_CP_PIN)
 
 uint8_t c = 0, I_RH, D_RH, I_Temp, D_Temp, CheckSum;
+int count;
 
 // Functie voor het starten van pull-up-pull-down request
 void request()
@@ -100,23 +104,62 @@ void dht11_measure()
     CheckSum = receive_data();
 }
 
+void initTimerOverflowCapture()
+{
+    // Starten van timer met 64ms delay
+    TIMSK0 |= (1 << TOIE0);
+    // Starten van timer met 64ms delay
+    TIMSK1 |= (1 << TOIE1);
+
+    // Starten van de timer en prescaler op 64ms
+    TCCR0B |= (1 << CS00) | (1 << CS02);
+
+    // Starten van de timer en prescaler op 64ms
+    TCCR1B |= (1 << CS10);
+
+    // interrupts aan
+    sei();
+}
+
+// Functie voor initialiseren matrix
 void matrixInit()
 {
-    // Output pinnen aanzetten
+    // Zet de pinnen aan op output
     DDRC = 0b00000111;
     PORTC = 0b00000000;
 }
 
-void maxtrix_output(unsigned int __led_state)
+void single_led(int row, int column)
 {
     SH_CP_low();
     ST_CP_low();
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 8; i++)
     {
-        if ((_BV(i) & __led_state) == _BV(i))
+        if (i == row)
+        {
             DS_high();
+        }
+
         else
+        {
             DS_low();
+        }
+
+        SH_CP_high();
+        SH_CP_low();
+    }
+
+    for (int i = 0; i < 8; i++)
+    {
+        if (i == column)
+        {
+            DS_low();
+        }
+
+        else
+        {
+            DS_high();
+        }
 
         SH_CP_high();
         SH_CP_low();
@@ -124,63 +167,176 @@ void maxtrix_output(unsigned int __led_state)
     ST_CP_high();
 }
 
-void initTimerOverflowCapture()
+void drawKoorts()
 {
-    // Starten van timer met 64ms delay 
-    TIMSK0 |= _BV(TOIE0);
-
-    // Starten van timer met 64ms delay 
-    TIMSK1 |= _BV(TOIE1);
-
-    // Starten van de timer en prescaler op 64ms
-    TCCR0B |= _BV(CS02) | _BV(CS00);
-
-    // Starten van de timer en prescaler op 64ms
-    TCCR1B |= _BV(CS10);
-
-    // interrupts aan
-    sei();
+    single_led(0, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(0, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(0, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(0, 6);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 2);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 2);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 6);
+    _delay_us(DELAY_LED_K);
 }
 
-ISR(TIMER0_OVF_vect) {
-
-    printString("Error");
-
-    // char data[5];
-
-    // dht11_measure();
-
-    //     if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
-    //     {
-    //         printString("Error");
-    //     }
-
-    //     else
-    //     {
-    //         itoa(I_RH, data, 10);
-    //         printString(data);
-    //         printString(".");
-
-    //         itoa(D_RH, data, 10);
-    //         printString(data);
-    //         printString("%");
-
-    //         itoa(I_Temp, data, 10);
-    //         printString(data);
-    //         printString(".");
-
-    //         itoa(D_Temp, data, 10);
-    //         printString(data);
-    //         printString("°C ");
-
-    //         itoa(CheckSum, data, 10);
-    //         printString(data);
-    //         printString(" \n\n");
-    //     }
-
-    //     _delay_ms(1000);
+void drawGeenKoorts()
+{
+    _delay_us(DELAY_LED);
+    single_led(1, 2);
+    _delay_us(DELAY_LED);
+    single_led(1, 3);
+    _delay_us(DELAY_LED);
+    single_led(1, 4);
+    _delay_us(DELAY_LED);
+    single_led(1, 5);
+    _delay_us(DELAY_LED);
+    single_led(2, 1);
+    _delay_us(DELAY_LED);
+    single_led(2, 2);
+    _delay_us(DELAY_LED);
+    single_led(2, 3);
+    _delay_us(DELAY_LED);
+    single_led(2, 4);
+    _delay_us(DELAY_LED);
+    single_led(2, 5);
+    _delay_us(DELAY_LED);
+    single_led(2, 6);
+    _delay_us(DELAY_LED);
+    single_led(3, 1);
+    _delay_us(DELAY_LED);
+    single_led(3, 2);
+    _delay_us(DELAY_LED);
+    single_led(3, 5);
+    _delay_us(DELAY_LED);
+    single_led(3, 6);
+    _delay_us(DELAY_LED);
+    single_led(5, 1);
+    _delay_us(DELAY_LED);
+    single_led(5, 2);
+    _delay_us(DELAY_LED);
+    single_led(5, 5);
+    _delay_us(DELAY_LED);
+    single_led(5, 6);
+    _delay_us(DELAY_LED);
+    single_led(6, 1);
+    _delay_us(DELAY_LED);
+    single_led(6, 2);
+    _delay_us(DELAY_LED);
+    single_led(6, 5);
+    _delay_us(DELAY_LED);
+    single_led(6, 6);
+    _delay_us(DELAY_LED);
 }
 
+ISR(TIMER0_OVF_vect)
+{
+    if (count > 300)
+    {
+        count = 0;
+
+        char data[5];
+
+        dht11_measure();
+
+        if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
+        {
+            printString("Error");
+        }
+
+        else
+        {
+            itoa(I_RH, data, 10);
+            printString(data);
+            printString(".");
+
+            itoa(D_RH, data, 10);
+            printString(data);
+            printString("%");
+
+            itoa(I_Temp, data, 10);
+            printString(data);
+            printString(".");
+
+            itoa(D_Temp, data, 10);
+            printString(data);
+            printString("C ");
+
+            itoa(CheckSum, data, 10);
+            printString(data);
+            printString("\n\n");
+        }
+    } else {
+        count++;
+    }
+}
+
+ISR(TIMER1_OVF_vect)
+{
+    if (I_Temp > 37)
+    {
+        drawKoorts();
+    }
+    else
+    {
+        drawGeenKoorts();
+    }
+}
 
 int main(void)
 {
@@ -193,9 +349,7 @@ int main(void)
 
     initTimerOverflowCapture();
 
-
     while (1)
     {
-        
     }
 }
