@@ -15,4 +15,4 @@ IMTHE1 - Hogeschool Leiden
     - [Opdracht 4.3](https://github.com/zowie93/IMTHE1/tree/master/opdrachten/opdracht_4_3)
     - [Opdracht 5.1](https://github.com/zowie93/IMTHE1/tree/master/opdrachten/opdracht_5_1)
     - [Opdracht 5.2](https://github.com/zowie93/IMTHE1/tree/master/opdrachten/opdracht_5_2)
-    - [Eindopdracht]()
+    - [Eindopdracht](https://github.com/zowie93/IMTHE1/tree/master/opdrachten/eindopdracht)
