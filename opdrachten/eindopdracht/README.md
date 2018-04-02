@@ -1,107 +1,471 @@
-# Opdracht 5.2 - ET Phone HOME!
+# Eindopdracht
 
-Zoek naar een library op internet om het HD44780 display te kunnen besturen en maak een programma dat jouw naam en studentnummer op het display laat zien.
+Show your moves
 
 # Samenvatting
 
-Voor deze opdracht heb ik een library gezocht op het internet voor de aansturing hiervan. Er zijn een aantal library's gemaakt voor het display en dit maakte de keuze erg lastig. Ik ben gegaan voor de makkelijkste weg en ging voor een combinatie van twee tutorials. Ik heb een [Display Library] gevonden met een settings bestand waarin je aanvoudig de aansluitingen voor elke arduino kon veranderen naar eigen wens. Omdat ik niet precies wist op welke pinnen het aangesloten moest worden ben ik ook opzoek gegaan naar een schema hoe ze het precies aansluiten. Al snel kwam ik erachter dat iedereen een pot meter gebruikte voor regelen van de backlight van de display.
+Voor de eindopdracht is het de bedoeling dat je twee unieke componenten pakt namelijk een invoer en een uitvoer component. In opdracht 5.1 heb ik al beschreven welke componenten ik heb als unieke componenten namelijk een DHT11 sensor en een 8x8 matrix. Voor de uitgebreidde uitleg van deze componenten verwijs ik naar opdracht 5.1.
 
-De library heb ik gebruikt van:
-https://community.atmel.com/projects/hd44780-library
+Ik ben begonnen met het bedenken van een concept wat ik hiermee kon en wat ook haalbaar was met deze componenten. Mij leek het een leuk idee om met de DHT11 sensor te meten of je koort had of niet. Je krijgt namelijk 4 waarden uit de sensor terug namelijk integraal luchtvochtigheid, decimaal luchtvochtigheid, integraal temperatuur en decimaal temperatuur. Met het laatste kan je meten of je koorts heb of niet namelijk als je temperatuur hoger is dan 37 graden heb je koorts. Zelf kon ik niet echt een concept bedenken waarbij de luchtvochtigheid ook een rol speelde maar het uitlezen van deze waarde heb ik wel in de serialmonitor getoond. Je kan natuurlijk een ideale leef omstandigheid tussen deze twee waardes weergeven maar dit doet iedereen al. Daarom leek mij dit concept even leuk om te doen het blijft tenslotten en simpele formule. 
 
-In deze library zit een settings bestand die ik als volgt heb aangepast:
-```c
-#ifndef HD44780_SETTINGS_H
-#define HD44780_SETTINGS_H
+Ik wilde graag gebruik maken van shiftregisters voor het aansturen van de 8x8 matrix. Als uniek component had ik een 8x8 matrix met zowel groene als rode leds. Wilde ik dit mogelijk maken had ik 3 shiftregisters nodig namelijk 1 voor de groene leds, 1 voor de rode leds en 1 voor alle ground rows. Het leek mij leuk om een rood kruis en een groen vinkje te tonen als je koorts had of geen koorts. Deze setup had ik helemaal aangesloten maar al snel kwam ik erachter dat de matrix kapot was en niet meer te gebruiken was omdat een paar rijen kapot waren. Zie hieronder de aansluiting van de setup:
 
-#define F_CPU                    16000000     // Set Clock Frequency
+[![Eindopdracht - Setup Old](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/eindopdracht_old.jpg?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/eindopdracht_old.jpg?raw=true)
 
-#define USE_ADELAY_LIBRARY       0           // Set to 1 to use my ADELAY library, 0 to use internal delay functions
-#define LCD_BITS                 4           // 4 for 4 Bit I/O Mode, 8 for 8 Bit I/O Mode
-#define RW_LINE_IMPLEMENTED      0           // 0 for no RW line (RW on LCD tied to ground), 1 for RW line present
-#define WAIT_MODE                0           // 0=Use Delay Method (Faster if running <10Mhz)
-                                             // 1=Use Check Busy Flag (Faster if running >10Mhz) ***Requires RW Line***
-#define DELAY_RESET              15          // in mS
-
-#define LCD_DB4_PORT             PORTC       // If using 4 bit omde, yo umust configure DB4-DB7
-#define LCD_DB4_PIN              0
-#define LCD_DB5_PORT             PORTC
-#define LCD_DB5_PIN              1
-#define LCD_DB6_PORT             PORTC
-#define LCD_DB6_PIN              2
-#define LCD_DB7_PORT             PORTC
-#define LCD_DB7_PIN              3
-
-#define LCD_RS_PORT              PORTC       // Port for RS line
-#define LCD_RS_PIN               4           // Pin for RS line
-
-#define LCD_DISPLAYS             1           // Up to 4 LCD displays can be used at one time
-                                             // All pins are shared between displays except for the E
-                                             // pin which each display will have its own
-
-                                             // Display 1 Settings - if you only have 1 display, YOU MUST SET THESE
-#define LCD_DISPLAY_LINES        2           // Number of Lines, Only Used for Set I/O Mode Command
-#define LCD_E_PORT               PORTC       // Port for E line
-#define LCD_E_PIN                5           // Pin for E line
-
-#endif
-```
-
-
-
-Voor de aansluiting van alle pinnen heb ik een tutorial gevolgt:
-http://www.learningaboutelectronics.com/Articles/Arduino-HD44780-circuit.php
-
-Hierin staat een afbeelding met de exacte pinnen waarop je alles kan aansluiten en die heb ik ingevuld in de bovenstaande settings.
-[![Lcd pin layout](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_2/assets/img/lcd_pinlayout.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_2/assets/img/lcd_pinlayout.png?raw=true)
+Nou daar zit je dan op je zaterdag avond met een kapotte matrix. Gelukkig had ik zelf nog een 8x8 matrix met alleen rode leds en heb ik een shiftregister eruit gehaald van de groene leds en iets anders aangesloten omdat het een andere datasheet had. Deze werkte wel volledig en zo kon ik verder met het concept. Door gebruikt te maken van 2 shiftregisters kan je 16bits onthouden en 16 pinnen hoog of laag zetten. Hierdoor kan je alle leds aansturen van je 8x8 matrix. De shiftregisters heb ik aangesloten via de [datasheet]. Als je koorts hebt toon ik een K van koorts en als je geen koorts heb toon ik een smiley die lacht. Nu is de DHT11 sensor niet helemaal accuraat en kan er een verschil ontstaan van 2 graden dus of dit de beste oplossing is ben ik niet helemaal zeker van zie [datasheet-dht11]. Het liefste had ik een DHT22 gehad die is veel accurater en zo kan je wel het beste meten. 
 
 
 
 # Afbeelding Setup
 
 Hieronder zie je afbeelding van de setup die ik gemaakt heb.
-[![Opdracht 5.2 - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_2/assets/img/opdracht5_2_setup.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_2/assets/img/opdracht5_2_setup.JPG?raw=true)
+[![Eindopdracht - Setup](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/eindopdracht.JPG?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/eindopdracht.JPG?raw=true)
 
 # Afbeelding Fritzing
 
 Hieronder zie je de afbeelding van de fritzing tekening die ik gemaakt heb.
-[![Opdracht 5.2 - Fritzing](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_2/assets/img/opdracht5_2_fritzing_bb.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_2/assets/img/opdracht5_2_fritzing_bb.png?raw=true)
+[![Eindopdracht - Fritzing](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/eindopdracht_bb.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/eindopdracht_bb.png?raw=true)
 
 # Video URL
 
 De [video][video] is te vinden op de onderstaande url:
-[![Opdracht 5_2](https://img.youtube.com/vi/gxTNZPafquQ/maxresdefault.jpg)](https://youtu.be/gxTNZPafquQ)
+[![Eindopdracht](https://img.youtube.com/vi/9IoNi0IY3zE/maxresdefault.jpg)](https://youtu.be/9IoNi0IY3zE)
 
 # Code gebruikt voor de opdracht
 
 ```c
 /**
  * IMTHE1 - Zowie van Geest - 1097398 - INF3C
- * Opdracht 5.2 - ET Phone HOME
- * Datum: 28-03-2018
+ * Eindopdracht
+ * Datum: 31-03-2018
  */
 
-#include "hd44780.h"
+#include <avr/io.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include <USART.h>
 
+// DHT11 pinnen
+#define DHT11_PIN 6
+// Pinnen waar data overheen gaat shift register
+#define DS_PORT PORTC
+#define DS_PIN 0
+// ST CP port en pin van shiftregister
+#define ST_CP_PORT PORTC
+#define ST_CP_PIN 1
+// SH CP port en pin van shiftregister
+#define SH_CP_PORT PORTC
+#define SH_CP_PIN 2
 
-void main(void) {
+// Delay van de ledjes
+#define DELAY_LED 160
+#define DELAY_LED_K 110
 
-    // LCD initialiseren
-    lcd_init();
+// Pin laag zetten
+#define DS_low() DS_PORT &= ~_BV(DS_PIN)
+// Pin hoog zetten
+#define DS_high() DS_PORT |= _BV(DS_PIN)
+// ST CP pin laag
+#define ST_CP_low() ST_CP_PORT &= ~_BV(ST_CP_PIN)
+// ST CP pin hoog
+#define ST_CP_high() ST_CP_PORT |= _BV(ST_CP_PIN)
+//SH CP pin laag
+#define SH_CP_low() SH_CP_PORT &= ~_BV(SH_CP_PIN)
+// SH CP pin hoog
+#define SH_CP_high() SH_CP_PORT |= _BV(SH_CP_PIN)
 
-    // Leeg beginnen scherm
-    lcd_clrscr();
+// variable voor Integraal Luchtvochtigheid, Decimaal Luchtvochtigheid, Integraal Temperatuur, Decimaal temperatuur en als laatste de checksum.
+uint8_t c = 0, I_RH, D_RH, I_Temp, D_Temp, CheckSum;
+// Variable voor het optellen
+int count;
 
-    // Naam op scherm schrijven
-    lcd_puts("Zowie van Geest");
+// Functie voor het starten van pull-up-pull-down request
+void request()
+{
+    DDRD |= _BV(DHT11_PIN);
+    // Zet de pin op low
+    PORTD &= ~_BV(DHT11_PIN);
+    // Wachten voor 20ms
+    _delay_ms(20);
+    // Zet de pin op high
+    PORTD |= _BV(DHT11_PIN);
+}
 
-    // Hard enter
-    lcd_goto(64);
+// Functie voor het ontvangen van de response van de DHT11 sensor
+void response()
+{
+    // Response van DHT11 nu actief
+    DDRD &= ~_BV(DHT11_PIN);
+    // Loop tot de pin clear is
+    while (PIND & _BV(DHT11_PIN))
+        ;
+    // Loop tot die een waarde krijgt
+    while ((PIND & _BV(DHT11_PIN)) == 0)
+        ;
+    // Loop tot de pin weer clear is
+    while (PIND & _BV(DHT11_PIN))
+        ;
+}
 
-    // Studentnummer op scherm schrijven
-    lcd_puts("1097398");
+// Functie voor het ontvangen van data van de DHT11 sensor
+uint8_t receive_data() /* receive data */
+{
+    // for loop voor elk stuk data (8bit) voor het uitlezen dient dit 8x gedaan te worden.
+    for (int a = 0; a < 8; a++)
+    {
+        // Loop voor het kijken of er een 0 of 1 terug gegeven wordt
+        while ((PIND & _BV(DHT11_PIN)) == 0)
+            ;
+        // Delay van 30us
+        _delay_us(30);
+        // Check of de high pin groter is dan 30ms
+        if (PIND & _BV(DHT11_PIN))
+            // Dan is de pin high
+            c = (c << 1) | (0x01); /* then its logic HIGH */
+        else
+            // Ander is de pin low
+            c = (c << 1);
+        // Loop tot pin clear is
+        while (PIND & _BV(DHT11_PIN))
+            ;
+    }
+    // teruggeven c
+    return c;
+}
+
+void dht11_measure()
+{
+    // begin met het request
+    request();
+    // Wacht op response
+    response();
+    // Integraal voor luchtvochtigheid
+    I_RH = receive_data();
+    // Decimaal voor luchtvochtigheid
+    D_RH = receive_data();
+    // Integraal voor Temperatuur
+    I_Temp = receive_data();
+    // Decimaal voor Temperatuur
+    D_Temp = receive_data();
+    // Checksum voor alle 4 de bits van 8
+    CheckSum = receive_data();
+}
+
+void initTimerOverflowCapture()
+{
+    // Starten van timer met 64ms delay
+    TIMSK0 |= (1 << TOIE0);
+    // Starten van timer met 64ms delay
+    TIMSK1 |= (1 << TOIE1);
+
+    // Starten van de timer en prescaler op 64ms
+    TCCR0B |= (1 << CS00) | (1 << CS02);
+
+    // Starten van de timer en prescaler op 64ms
+    TCCR1B |= (1 << CS10);
+
+    // interrupts aan
+    sei();
+}
+
+// Functie voor initialiseren matrix
+void matrixInit()
+{
+    // Zet de pinnen aan op output
+    DDRC = 0b00000111;
+    PORTC = 0b00000000;
+}
+
+// Functie waarbij je 1 ledje aanzet met berekening van 1 rij en 1 column
+void single_led(int row, int column)
+{
+    // Zet SH CP op low
+    SH_CP_low();
+    // Zet ST CP op low
+    ST_CP_low();
+    // For loop die het matrix indexeerd van 8 rijen
+    for (int i = 0; i < 8; i++)
+    {
+        // Als i een getal is gaat de pin op high dus rij x column is ledje aan
+        if (i == row)
+        {
+            // Zet pin hoog
+            DS_high();
+        }
+        // Anders nog iets?
+        else
+        {
+            // Zet pin laag
+            DS_low();
+        }
+        // Pin hoog
+        SH_CP_high();
+        // Pin laag
+        SH_CP_low();
+    }
+
+    // For loop die het matrix indexeerd van 8 columns
+    for (int i = 0; i < 8; i++)
+    {
+        // Als i een getal is gaat de pin op high dus rij x column is ledje aan
+        if (i == column)
+        {
+            // Zet pin laag
+            DS_low();
+        }
+
+        else
+        {   
+            // Zet ping hoog
+            DS_high();
+        }
+        // Pin hoog
+        SH_CP_high();
+        // Pin laag
+        SH_CP_low();
+    }
+    // Pin hoog eindigen 
+    ST_CP_high();
+}
+
+// Functie voor het tekenen van een K
+void drawKoorts()
+{
+    single_led(0, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(0, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(0, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(0, 6);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(1, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(2, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 2);
+    _delay_us(DELAY_LED_K);
+    single_led(3, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 2);
+    _delay_us(DELAY_LED_K);
+    single_led(4, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 3);
+    _delay_us(DELAY_LED_K);
+    single_led(5, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 4);
+    _delay_us(DELAY_LED_K);
+    single_led(6, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 0);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 1);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 5);
+    _delay_us(DELAY_LED_K);
+    single_led(7, 6);
+    _delay_us(DELAY_LED_K);
+}
+
+// Functie voor het tekenen van het kruis
+void drawGeenKoorts()
+{
+    _delay_us(DELAY_LED);
+    single_led(1, 2);
+    _delay_us(DELAY_LED);
+    single_led(1, 3);
+    _delay_us(DELAY_LED);
+    single_led(1, 4);
+    _delay_us(DELAY_LED);
+    single_led(1, 5);
+    _delay_us(DELAY_LED);
+    single_led(2, 1);
+    _delay_us(DELAY_LED);
+    single_led(2, 2);
+    _delay_us(DELAY_LED);
+    single_led(2, 3);
+    _delay_us(DELAY_LED);
+    single_led(2, 4);
+    _delay_us(DELAY_LED);
+    single_led(2, 5);
+    _delay_us(DELAY_LED);
+    single_led(2, 6);
+    _delay_us(DELAY_LED);
+    single_led(3, 1);
+    _delay_us(DELAY_LED);
+    single_led(3, 2);
+    _delay_us(DELAY_LED);
+    single_led(3, 5);
+    _delay_us(DELAY_LED);
+    single_led(3, 6);
+    _delay_us(DELAY_LED);
+    single_led(5, 1);
+    _delay_us(DELAY_LED);
+    single_led(5, 2);
+    _delay_us(DELAY_LED);
+    single_led(5, 5);
+    _delay_us(DELAY_LED);
+    single_led(5, 6);
+    _delay_us(DELAY_LED);
+    single_led(6, 1);
+    _delay_us(DELAY_LED);
+    single_led(6, 2);
+    _delay_us(DELAY_LED);
+    single_led(6, 5);
+    _delay_us(DELAY_LED);
+    single_led(6, 6);
+    _delay_us(DELAY_LED);
+}
+
+// Timer 1
+ISR(TIMER0_OVF_vect)
+{
+    // Kijken wanneer de count groter is dan 300 dan voert die dit uit
+    if (count > 300)
+    {
+        // Voor telkens opnieuw uitvoeren zet ik die count op 0 als die in de loop zit
+        count = 0;
+
+        // Data charset voor alle waardes uit de DHT11
+        char data[5];
+
+        // Starten van de meting
+        dht11_measure();
+
+        // Als de waardes niet overeen komen met de bijbehorende checksum print die een error.
+        if ((I_RH + D_RH + I_Temp + D_Temp) != CheckSum)
+        {
+            // Print error.
+            printString("Error");
+        }
+        // Anders nog iets?
+        else
+        {
+            // Omzetten van de data
+            itoa(I_RH, data, 10);
+            // Printen data
+            printString(data);
+            // punt als tussenwaarde
+            printString(".");
+
+            // Omzetten van de data
+            itoa(D_RH, data, 10);
+            // Printen data
+            printString(data);
+            // Luchtvochtigheid is in percentage
+            printString("%");
+
+            // Omzetten van de data
+            itoa(I_Temp, data, 10);
+            // Printen data
+            printString(data);
+            // punt als tussen waarde
+            printString(".");
+
+            // Omzetten van de data
+            itoa(D_Temp, data, 10);
+            // Printen data
+            printString(data);
+            // Celsuis
+            printString("C ");
+
+            // Omzetten van de data
+            itoa(CheckSum, data, 10);
+            // Printen data
+            printString(data);
+            // New line
+            printString("\n\n");
+        }
+    } else {
+        // Count optellen
+        count++;
+    }
+}
+
+// Tweede timer die checkt of de waarde gelijk is als statement
+ISR(TIMER1_OVF_vect)
+{
+    // Als de temperatuur hoger is van 37 graden celsius
+    if (I_Temp > 37)
+    {   
+        // Teken koorts symbool
+        drawKoorts();
+    }
+    else
+    {
+        // Teken smiley symbool
+        drawGeenKoorts();
+    }
+}
+
+int main(void)
+{
+
+    // USART initialiseren
+    initUSART();
+
+    // 1 Seconden delay
+    _delay_ms(1000);
+
+    // Matrix initialiseren
+    matrixInit();
+
+    // Timer overflow initialiseren
+    initTimerOverflowCapture();
+
+    while (1)
+    {
+    }
 }
 ```
 
-[video]: https://youtu.be/gxTNZPafquQ
-[Display Library]: https://community.atmel.com/projects/hd44780-library
+
+
+# Technical datasheet
+
+
+**Matrix van 8x8 (output)**
+[![Matrix 8x8 internal circuit](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_1/assets/img/matrix-pinlayout.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_1/assets/img/matrix-pinlayout.png?raw=true)
+
+**DHT11 Sensor(input)**
+[![DHT11 Pin Layout](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_1/assets/img/dht11-pinout.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/opdracht_5_1/assets/img/dht11-pinout.png?raw=true)
+
+**Shiftregister SN74HC595**
+[![Shiftregister SN74HC595](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/SN74HC595.png?raw=true)](https://github.com/zowie93/IMTHE1/blob/master/opdrachten/eindopdracht/assets/img/SN74HC595.png?raw=true)
+
+[video]: https://youtu.be/9IoNi0IY3zE
+[datasheet]: https://www.sparkfun.com/datasheets/IC/SN74HC595.pdf
+[datasheet-dht11]: https://www.optimusdigital.ro/index.php?controller=attachment&amp;amp;amp;amp;id_attachment=59
+
